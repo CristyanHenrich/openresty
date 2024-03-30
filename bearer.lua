@@ -21,11 +21,10 @@ if token == nil then
 end
 
 local validators = require "resty.jwt-validators"
-local claim_spec = {
-
-}
+local claim_spec = {}
 
 local jwt_obj = jwt:verify(os.getenv("JWT_SECRET"), token, claim_spec)
+
 if not jwt_obj["verified"] then
     ngx.status = ngx.HTTP_UNAUTHORIZED
     ngx.log(ngx.WARN, jwt_obj.reason)
@@ -34,9 +33,23 @@ if not jwt_obj["verified"] then
     ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
-ngx.say("Decoded JWT:")
-for key, value in pairs(jwt_obj["payload"]) do
-    ngx.say(key .. ": " .. value)
+ngx.var.ip = jwt_obj.payload.ip
+ngx.var.socket = jwt_obj.payload.socket
+ngx.var.api = jwt_obj.payload.api
+
+if ngx.var.jwt then
+    if jwt_obj then
+        ngx.var.ip = jwt_obj.payload.ip
+        ngx.var.socket = jwt_obj.payload.socket
+        ngx.var.api = jwt_obj.payload.api
+    else
+        ngx.exit(ngx.HTTP_FORBIDDEN)
+    end
+
+    ngx.say("Redirecionamento para: " .. ngx.var.ip .. ":" .. ngx.var.api)
+    ngx.exit(ngx.HTTP_OK)
+else
+    ngx.exit(ngx.HTTP_FORBIDDEN)
 end
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
