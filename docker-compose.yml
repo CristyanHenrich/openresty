@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: openresty
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:80"
+    networks:
+      - npm_network
+
+
+networks:
+  npm_network:
+      name: npm_network
