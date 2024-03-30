@@ -33,23 +33,8 @@ if not jwt_obj["verified"] then
     ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
-ngx.var.ip = jwt_obj.payload.ip
-ngx.var.socket = jwt_obj.payload.socket
-ngx.var.api = jwt_obj.payload.api
-
-if ngx.var.jwt then
-    if jwt_obj then
-        ngx.var.ip = jwt_obj.payload.ip
-        ngx.var.socket = jwt_obj.payload.socket
-        ngx.var.api = jwt_obj.payload.api
-    else
-        ngx.exit(ngx.HTTP_FORBIDDEN)
-    end
-
-    ngx.say("Redirecionamento para: " .. ngx.var.ip .. ":" .. ngx.var.api)
-    ngx.exit(ngx.HTTP_OK)
-else
-    ngx.exit(ngx.HTTP_FORBIDDEN)
-end
+ngx.var.jwt_ip = jwt_obj.payload.ip
+ngx.var.jwt_socket = jwt_obj.payload.socket
+ngx.var.jwt_api = jwt_obj.payload.api
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
