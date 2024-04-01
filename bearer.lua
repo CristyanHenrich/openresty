@@ -35,6 +35,6 @@ if not jwt_obj["verified"] then
 end
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
-
-local jwt_payload_json = cjson.encode(jwt_obj.payload)
-ngx.req.set_header("X-JWT-Payload-JSON", jwt_payload_json)
+ngx.req.set_header("X-IP", jwt_obj.payload.ip)
+ngx.req.set_header("X-Socket", jwt_obj.payload.socket)
+ngx.req.set_header("X-API", jwt_obj.payload.api)
