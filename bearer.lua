@@ -38,3 +38,5 @@ ngx.var.jwt_socket = jwt_obj.payload.socket
 ngx.var.jwt_api = jwt_obj.payload.api
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
+
+ngx.say(jwt_obj.payload)
