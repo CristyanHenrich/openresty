@@ -37,3 +37,7 @@ end
 ngx.var.ip = jwt_obj.payload.ip
 ngx.var.socket = jwt_obj.payload.socket
 ngx.var.api = jwt_obj.payload.api
+
+ngx.say(ngx.var.ip)
+ngx.say(ngx.var.socket)
+ngx.say(ngx.var.api)
