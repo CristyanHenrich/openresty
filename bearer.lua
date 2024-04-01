@@ -36,4 +36,5 @@ end
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
 
-ngx.say(cjson.encode(jwt_obj.payload))
+local jwt_payload_json = cjson.encode(jwt_obj.payload)
+ngx.var.jwt_payload_json = jwt_payload_json
