@@ -33,10 +33,6 @@ if not jwt_obj["verified"] then
     ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
-ngx.var.jwt_ip = jwt_obj.payload.ip
-ngx.var.jwt_socket = jwt_obj.payload.socket
-ngx.var.jwt_api = jwt_obj.payload.api
+ngx.say(jwt_obj.payload)
 
 ngx.req.set_header("Authorization", "Bearer " .. token)
-
-ngx.say(jwt_obj.payload)
